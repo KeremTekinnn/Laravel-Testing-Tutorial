@@ -9,6 +9,7 @@ use App\Models\Product;
 
 class ProductTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
@@ -30,4 +31,6 @@ class ProductTest extends TestCase
         $response->assertStatus(200);
         $response->assertDontSee(__('No products found!'));
     }
+
+
 }
