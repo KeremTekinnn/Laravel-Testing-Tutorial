@@ -30,6 +30,9 @@ class ProductTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
         $response->assertDontSee(__('No products found!'));
+        $response->assertViewHas('products', function ($collection) use ($product) {
+            return $collection->contains($product);
+        });
     }
 
 
