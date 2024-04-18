@@ -43,4 +43,11 @@ class ProductController extends Controller
         // redirect to the index page
         return redirect()->route('products.index');
     }
+
+    // destroy
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return redirect()->route('products.index');
+    }
 }
