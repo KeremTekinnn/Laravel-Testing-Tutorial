@@ -28,11 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // products index
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('products', [ProductController::class, 'index'])->name('products.index');
     // if admin create and store
     Route::middleware('is_admin')->group(function () {
-        Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-        Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+        Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+        Route::post('products', [ProductController::class, 'store'])->name('products.store');
     });
 });
 

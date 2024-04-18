@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Http\Requests\StoreProductRequest;
 
 class ProductController extends Controller
 {
@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::paginate(10);
-    
+
         return view('products.index', ['products' => $products]);
     }
 
@@ -22,20 +22,9 @@ class ProductController extends Controller
     }
 
     // store
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        // validate the request
-        $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-        ]);
-
-        // create a new product
-        $product = new Product();
-        $product->name = $request->name;
-        $product->price = $request->price;
-        $product->save();
-
+        Product::create($request->validated());
         // redirect to the index page
         return redirect()->route('products.index');
     }
