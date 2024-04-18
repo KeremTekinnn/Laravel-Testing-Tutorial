@@ -152,6 +152,15 @@ class ProductTest extends TestCase
         $this->assertDatabaseCount('products', 0);
     }
 
+    // test api returns products list
+    public function test_api_returns_products_list()
+    {
+        $product = Product::factory()->create();
+        $response = $this->actingAs($this->admin)->getJson('/api/products');
+
+        $response->assertJson([$product->toArray()]);
+    }
+
     private function createUser(bool $isAdmin = false): User
     {
         return User::factory()->create([
