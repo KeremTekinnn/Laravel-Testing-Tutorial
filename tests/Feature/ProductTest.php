@@ -16,12 +16,14 @@ class ProductTest extends TestCase
      * A basic feature test example.
      */
     private User $user;
+    private User $admin;
 
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = $this->createUser();
+        $this->admin = $this->createUser(isAdmin: true);
     }
 
     public function test_homepage_contains_empty_table()
@@ -59,9 +61,41 @@ class ProductTest extends TestCase
         });
     }
 
-    private function createUser(): User
+    public function test_admin_can_see_products_create_button()
     {
-        return User::factory()->create();
+        $response = $this->actingAs($this->admin)->get('/products');
+
+        $response->assertStatus(200);
+        $response->assertSee('Add Product');
+    }
+
+    public function test_non_admin_cannot_see_products_create_button()
+    {
+        $response = $this->actingAs($this->user)->get('/products');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('Add Product');
+    }
+
+    public function test_admin_can_access_create_product_page()
+    {
+        $response = $this->actingAs($this->admin)->get('/products/create');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_non_admin_cannot_access_create_product_page()
+    {
+        $response = $this->actingAs($this->user)->get('/products/create');
+
+        $response->assertStatus(403);
+    }
+
+    private function createUser(bool $isAdmin = false): User
+    {
+        return User::factory()->create([
+                'is_admin' => $isAdmin,
+            ]);
     }
 
 }
