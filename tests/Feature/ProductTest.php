@@ -161,6 +161,17 @@ class ProductTest extends TestCase
         $response->assertJson([$product->toArray()]);
     }
 
+    // test api product invalid store returns error
+    public function test_api_product_invalid_store_returns_error()
+    {
+        $product = [
+            'name' => '',
+            'price' => '123',
+        ];
+        $response = $this->postJson('/api/products', $product);
+        $response->assertStatus(422);
+    }
+
     private function createUser(bool $isAdmin = false): User
     {
         return User::factory()->create([
