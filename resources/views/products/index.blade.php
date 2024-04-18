@@ -17,6 +17,11 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Price
                                 </th>
+                                @if (auth()->user()->is_admin)
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
+                                    </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -28,10 +33,15 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         {{ number_format($product->price, 2 ) }}
                                     </td>
+                                    @if (auth()->user()->is_admin)
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <a href="{{ route('products.edit', $product->id) }}" class="text-blue-600 hover:text-blue-900">Edit</a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="2" class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <td colspan="3" class="px-6 py-4 whitespace-nowrap text-sm">
                                         {{__('No products found!')}}
                                     </td>
                                 </tr>
