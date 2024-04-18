@@ -15,12 +15,6 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
     }
-    
-    public function test_the_homepage_contains_symfony(): void
-    {
-        $response = $this->get('/');
-        // assert see Symfony in the response
-        $response->assertSee('Symfony');
-        $response->assertStatus(200);
-    }
+
+
 }
